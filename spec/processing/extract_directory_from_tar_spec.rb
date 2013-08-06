@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'restore/processors/utility/extract_directory_from_tar'
 
-describe Restore::Processor::ExtractDirectoryFromTar do
+describe Restore::Processor::Utility::ExtractDirectoryFromTar do
 
   let(:backup){ '/thing' }
   let(:extracted_backup){ mock }
@@ -13,7 +13,7 @@ describe Restore::Processor::ExtractDirectoryFromTar do
   end
 
   before do
-    @subject = Restore::Processor::ExtractDirectoryFromTar.new(config)
+    @subject = Restore::Processor::Utility::ExtractDirectoryFromTar.new(config)
   end
 
   describe 'process' do
