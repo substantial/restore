@@ -1,10 +1,11 @@
+require 'restore/strategy'
 require 'fileutils'
 
 class Restore
 
   module ProcessingStrategies
 
-    class OpenSSLDecrypt
+    class OpenSSLDecrypt < Strategy
 
       def initialize(config)
         @encryption_cipher = config[:encryption_cipher]

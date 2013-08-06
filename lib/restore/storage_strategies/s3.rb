@@ -1,3 +1,4 @@
+require 'restore/strategy'
 require 'fileutils'
 require 'tmpdir'
 require 'aws-sdk'
@@ -6,7 +7,7 @@ class Restore
 
   module StorageStrategies
 
-    class S3
+    class S3 < Strategy
 
       def initialize(config)
         @config = config

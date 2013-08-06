@@ -1,8 +1,10 @@
+require 'restore/strategy'
+
 class Restore
 
   module DatabaseStrategies
 
-    class MongoDB
+    class MongoDB < Strategy
 
       def initialize(config)
         @config = config

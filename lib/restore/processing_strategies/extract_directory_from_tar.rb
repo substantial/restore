@@ -1,10 +1,11 @@
+require 'restore/strategy'
 require 'fileutils'
 
 class Restore
 
   module ProcessingStrategies
 
-    class ExtractDirectoryFromTar
+    class ExtractDirectoryFromTar < Strategy
 
       def initialize(config)
         @config = config
