@@ -15,8 +15,8 @@ class Restore
       end
 
       def retrieve
-        write_file(filepath, latest_backup)
-        return filepath
+        write_file(backup_path, latest_backup)
+        return backup_path
       end
 
       private
@@ -33,8 +33,8 @@ class Restore
         @s3.buckets[@config[:bucket_name]]
       end
 
-      def filepath
-        @filepath ||= begin
+      def backup_path
+        @backup_path ||= begin
                         filename = latest_backup.key.gsub('/', '-')
                         File.join(Dir.tmpdir, filename)
                       end

@@ -9,11 +9,11 @@ class Restore
   end
 
   def run
-    backup = @storage_strategy.retrieve
+    backup_path = @storage_strategy.retrieve
     @processing_strategies.each do |strategy|
-      backup = strategy.process(backup)
+      backup_path = strategy.process(backup_path)
     end
-    @database_strategy.restore_from(backup)
+    @database_strategy.restore_from(backup_path)
   end
 
   protected
