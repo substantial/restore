@@ -9,7 +9,7 @@ class Restore
       class MySQL < Strategy
 
         def initialize(config)
-          @username = config[:username] ? "--user=#{config[:username]}" : ''
+          @user = config[:user] ? "--user=#{config[:user]}" : ''
           @password = config[:password] ? "--password=#{config[:password]}" : ''
           @database = config[:database]
           raise ArgumentError unless @database
@@ -26,7 +26,7 @@ class Restore
         private
 
         def mysql_command(cmd)
-          execute("mysql #{@username} #{@password} #{cmd}".squeeze(' ').strip)
+          execute("mysql #{@user} #{@password} #{cmd}".squeeze(' ').strip)
         end
 
       end

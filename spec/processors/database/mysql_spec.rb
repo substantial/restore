@@ -9,7 +9,7 @@ describe Restore::Processor::Database::MySQL do
 
     before do
       config = {
-        :username => 'foo',
+        :user => 'foo',
         :password => 'bar',
         :database => 'stuff',
         :drop => true,
@@ -19,9 +19,25 @@ describe Restore::Processor::Database::MySQL do
       @subject.stub(:execute)
     end
 
+    after do
+      @subject.process(backup_path)
+    end
+
+    it 'should drop the database' do
+      @subject.should_receive(:execute).with("mysql --user=foo --password=bar --execute='drop database stuff'")
+    end
+
+    it 'should create the database' do
+      @subject.should_receive(:execute).with("mysql --user=foo --password=bar --execute='create database stuff'")
+    end
+
+    it 'should restore the database' do
+      @subject.should_receive(:execute).with("mysql --user=foo --password=bar stuff < /my/backup.sql")
+    end
+
   end
 
-  context 'username and password not set' do
+  context 'user and password not set' do
 
     before do
       config = {
@@ -33,7 +49,7 @@ describe Restore::Processor::Database::MySQL do
       @subject.stub(:execute)
     end
 
-    it 'should exclude username and password from the command' do
+    it 'should exclude user and password from the command' do
       @subject.should_receive(:execute).with("mysql stuff < /my/backup.sql")
       @subject.process(backup_path)
     end
@@ -44,7 +60,7 @@ describe Restore::Processor::Database::MySQL do
 
     before do
       config = {
-        :username => 'foo',
+        :user => 'foo',
         :password => 'bar',
         :database => 'stuff',
       }
@@ -68,7 +84,7 @@ describe Restore::Processor::Database::MySQL do
 
     it 'should raise an argument error' do
       config = {
-        :username => 'foo',
+        :user => 'foo',
         :password => 'bar',
         :drop => true,
         :create => true
