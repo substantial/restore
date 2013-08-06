@@ -1,4 +1,12 @@
 require 'restore'
+require 'restore/strategy'
+
+class Restore
+  class Strategy
+    def log(arg)
+    end
+  end
+end
 
 RSpec.configure do |config|
   # Use color in STDOUT
