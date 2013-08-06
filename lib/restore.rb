@@ -2,7 +2,7 @@ require "restore/version"
 
 class Restore
 
-  def initialize(storage, processors)
+  def initialize(storage, processors = nil)
     @storage = storage
     @processors = processors
   end

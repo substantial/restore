@@ -36,4 +36,14 @@ describe Restore do
 
   end
 
+  context 'optional processors' do
+
+    it 'should not raise if the processors argument is not included' do
+      expect do
+        Restore.new(:foo)
+      end.to_not raise_error
+    end
+
+  end
+
 end
