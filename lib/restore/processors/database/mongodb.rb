@@ -12,7 +12,7 @@ class Restore
           @config = config
         end
 
-        def restore_from(backup_path)
+        def process(backup_path)
           execute("mongorestore --drop -d #{@config[:database_name]} #{backup_path}")
         end
 

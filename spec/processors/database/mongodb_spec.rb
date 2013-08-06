@@ -11,11 +11,11 @@ describe Restore::Processor::Database::MongoDB do
     @subject.stub(:execute){ mock }
   end
 
-  describe '#restore_from' do
+  describe '#process' do
 
     it 'should mongorestore with the correct arguments' do
       @subject.should_receive(:execute).with('mongorestore --drop -d foo /bar/')
-      @subject.restore_from(directory)
+      @subject.process(directory)
     end
 
   end
