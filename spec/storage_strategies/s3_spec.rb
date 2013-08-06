@@ -5,7 +5,8 @@ describe Restore::StorageStrategies::S3 do
 
   let(:config) do
     {
-      :s3_credentials => {},
+      :access_key_id => 'foo',
+      :secret_access_key => 'bar',
       :prefix_path => '/blah/',
       :bucket_name => 'pickles'
     }
@@ -50,24 +51,28 @@ describe Restore::StorageStrategies::S3 do
 
   let(:buckets){ { config[:bucket_name] => bucket } }
 
-  let(:s3) do
-    mock.tap do |s3|
-      s3.stub(:buckets){ buckets }
-    end
-  end
-
   before do
     AWS.stub(:config)
-    AWS::S3.stub(:new){ s3 }
+
+    AWS::S3.stub(:new) do
+      mock.tap do |s3|
+        s3.stub(:buckets){ buckets }
+      end
+    end
+
     Dir.stub(:tmpdir){ '/my/tmp/dir' }
     @subject = Restore::StorageStrategies::S3.new(config)
   end
 
   describe '#retrieve' do
 
-
     before do
       @subject.stub(:open).and_yield(file)
+    end
+
+    it 'should configure aws s3 correctly' do
+      AWS.should_receive(:config).with(config)
+      @subject.retrieve
     end
 
     it 'should open the file for writing' do
