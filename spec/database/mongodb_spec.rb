@@ -1,13 +1,13 @@
 require 'spec_helper'
-require 'restore/database_strategies/mongodb'
+require 'restore/database/mongodb'
 
-describe Restore::DatabaseStrategies::MongoDB do
+describe Restore::Database::MongoDB do
 
   let(:directory){ '/bar/' }
   let(:config){ {:database_name => 'foo'} }
 
   before do
-    @subject = Restore::DatabaseStrategies::MongoDB.new(config)
+    @subject = Restore::Database::MongoDB.new(config)
     @subject.stub(:execute){ mock }
   end
 

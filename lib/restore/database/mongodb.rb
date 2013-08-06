@@ -2,7 +2,7 @@ require 'restore/strategy'
 
 class Restore
 
-  module DatabaseStrategies
+  module Database
 
     class MongoDB < Strategy
 

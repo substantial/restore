@@ -3,7 +3,7 @@ require 'fileutils'
 
 class Restore
 
-  module ProcessingStrategies
+  module Processing
 
     class ExtractDirectoryFromTar < Strategy
 

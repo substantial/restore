@@ -5,7 +5,7 @@ require 'aws-sdk'
 
 class Restore
 
-  module StorageStrategies
+  module Storage
 
     class S3 < Strategy
 

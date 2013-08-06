@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'restore/storage_strategies/s3'
+require 'restore/storage/s3'
 
-describe Restore::StorageStrategies::S3 do
+describe Restore::Storage::S3 do
 
   let(:config) do
     {
@@ -61,7 +61,7 @@ describe Restore::StorageStrategies::S3 do
     end
 
     Dir.stub(:tmpdir){ '/my/tmp/dir' }
-    @subject = Restore::StorageStrategies::S3.new(config)
+    @subject = Restore::Storage::S3.new(config)
   end
 
   describe '#retrieve' do
