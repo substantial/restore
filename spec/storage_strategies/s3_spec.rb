@@ -13,7 +13,7 @@ describe Restore::StorageStrategies::S3 do
 
   let(:older_object) do |object|
     mock.tap do |object|
-      object.stub(:key){ 'my/object/older' }
+      object.stub(:key){ 'my/objects/older/file-path' }
       object.stub(:last_modified){ 1 }
     end
   end
@@ -28,7 +28,7 @@ describe Restore::StorageStrategies::S3 do
 
   let(:newer_object) do |object|
     mock.tap do |object|
-      object.stub(:key){ 'my/objects/newer' }
+      object.stub(:key){ 'my/objects/newer/file-path' }
       object.stub(:last_modified){ 2 }
       object.stub(:read).and_yield(chunk)
     end
@@ -71,7 +71,7 @@ describe Restore::StorageStrategies::S3 do
     end
 
     it 'should open the file for writing' do
-      @subject.should_receive(:open).with("/my/tmp/dir/my-objects-newer", "wb")
+      @subject.should_receive(:open).with("/my/tmp/dir/my-objects-newer-file-path", "wb")
       @subject.retrieve
     end
 
@@ -80,9 +80,9 @@ describe Restore::StorageStrategies::S3 do
       @subject.retrieve
     end
 
-    # it 'should return the new backup path' do
-    #   @subject.retrieve.should == '/some/file/path'
-    # end
+    it 'should return the new backup path' do
+      @subject.retrieve.should == '/my/tmp/dir/my-objects-newer-file-path'
+    end
 
   end
 
