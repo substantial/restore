@@ -14,10 +14,6 @@ class Restore
         execute("mongorestore --drop -d #{@config[:database_name]} #{directory}")
       end
 
-      def execute(command)
-        system(command)
-      end
-
     end
 
   end

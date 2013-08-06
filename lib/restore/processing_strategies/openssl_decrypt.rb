@@ -17,7 +17,8 @@ class Restore
 
       def process(backup_path)
         decrypted_backup_path = backup_path + '-decrypted'
-        system("openssl #{@encryption_cipher} -d #{@base64} #{@password} #{@salt} -in #{backup_path} -out #{decrypted_backup_path}")
+        log "decrypting #{backup_path} to #{decrypted_backup_path}"
+        execute("openssl #{@encryption_cipher} -d #{@base64} #{@password} #{@salt} -in #{backup_path} -out #{decrypted_backup_path}")
         return decrypted_backup_path
       end
 

@@ -18,13 +18,13 @@ describe Restore::ProcessingStrategies::OpenSSLDecrypt do
 
     before do
       @subject = Restore::ProcessingStrategies::OpenSSLDecrypt.new(config)
-      @subject.stub(:system)
+      @subject.stub(:execute)
     end
 
     describe '#process' do
 
       it 'should make the correct system call' do
-        @subject.should_receive(:system).with('openssl pancakes -d -base64 -pass file:/foo/bar/baz -salt -in /backup/path -out /backup/path-decrypted')
+        @subject.should_receive(:execute).with('openssl pancakes -d -base64 -pass file:/foo/bar/baz -salt -in /backup/path -out /backup/path-decrypted')
         @subject.process(backup_path)
       end
 

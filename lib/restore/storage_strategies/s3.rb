@@ -21,6 +21,7 @@ class Restore
       private
 
       def write_file(filename, data)
+        log "writing archive to #{filename}"
         open(filename, 'wb') do |file|
           data.read do |chunk|
             file.write chunk
@@ -30,10 +31,13 @@ class Restore
 
       def latest_backup
         objects = bucket.objects.with_prefix(@config[:prefix_path])
-        objects.sort_by(&:last_modified).last
+        object = objects.sort_by(&:last_modified).last
+        log "found object #{object.key}"
+        return object
       end
 
       def bucket
+        log "looking in bucket #{@config[:bucket_name]}"
         s3.buckets[@config[:bucket_name]]
       end
 
