@@ -30,10 +30,12 @@ class Restore
       end
 
       def latest_backup
-        objects = bucket.objects.with_prefix(@config[:prefix_path])
-        object = objects.sort_by(&:last_modified).last
-        log "found object #{object.key}"
-        return object
+        @_latest_backup ||= begin
+                              objects = bucket.objects.with_prefix(@config[:prefix_path])
+                              object = objects.sort_by(&:last_modified).last
+                              log "found object #{object.key}"
+                              object
+                            end
       end
 
       def bucket
@@ -43,9 +45,9 @@ class Restore
 
       def backup_path
         @_backup_path ||= begin
-                        filename = latest_backup.key.gsub('/', '-')
-                        File.join(Dir.tmpdir, filename)
-                      end
+                            filename = latest_backup.key.gsub('/', '-')
+                            File.join(Dir.tmpdir, filename)
+                          end
       end
 
       def s3
