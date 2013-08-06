@@ -2,31 +2,35 @@ require 'spec_helper'
 
 describe Restore do
 
-  let(:backup){ mock }
-  let(:storage_strategy){ mock('storage strategy', :retrieve => backup) }
+  let(:backup_path){ mock }
+  let(:storage){ mock('storage', :retrieve => backup_path) }
   let(:processed_by_1){ mock }
-  let(:processed_by_both){ mock }
-  let(:processing_strategy_1) do
-    mock.tap do |processing_strategy_1|
-      processing_strategy_1.stub(:process).with(backup){ processed_by_1 }
+  let(:processor_1) do
+    mock.tap do |processor_1|
+      processor_1.stub(:process).with(backup_path){ processed_by_1 }
     end
   end
-  let(:processing_strategy_2) do
-    mock.tap do |processing_strategy_2|
-      processing_strategy_2.stub(:process).with(processed_by_1){ processed_by_both }
+  let(:processor_2) do
+    mock.tap do |processor_2|
+      processor_2.stub(:process).with(processed_by_1)
     end
   end
-  let(:processing_strategies){ [processing_strategy_1, processing_strategy_2] }
-  let(:database_strategy){ mock('database strategy', :restore_from_archive => mock )}
+  let(:processors){ [processor_1, processor_2] }
 
   before do
-    @subject = Restore.new(storage_strategy, processing_strategies, database_strategy)
+    @subject = Restore.new(storage, processors)
   end
 
   describe '#run' do
 
-    it 'should use the database strategy to restore from the retrieved archive' do
-      database_strategy.should_receive(:restore_from).with(processed_by_both)
+    it 'should retrieve the stored backup' do
+      storage.should_receive(:retrieve)
+      @subject.run
+    end
+
+    it 'should process the backup_path' do
+      processor_1.should_receive(:process).with(backup_path)
+      processor_2.should_receive(:process).with(processed_by_1)
       @subject.run
     end
 

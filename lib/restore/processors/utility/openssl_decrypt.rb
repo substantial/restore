@@ -3,7 +3,7 @@ require 'fileutils'
 
 class Restore
 
-  module Processing
+  module Processor
 
     class OpenSSLDecrypt < Strategy
 

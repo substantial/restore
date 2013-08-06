@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'restore/processing/openssl_decrypt'
+require 'restore/processors/utility/openssl_decrypt'
 
-describe Restore::Processing::OpenSSLDecrypt do
+describe Restore::Processor::OpenSSLDecrypt do
 
   let(:backup_path){ '/backup/path' }
 
@@ -17,7 +17,7 @@ describe Restore::Processing::OpenSSLDecrypt do
   context 'valid arguments provided' do
 
     before do
-      @subject = Restore::Processing::OpenSSLDecrypt.new(config)
+      @subject = Restore::Processor::OpenSSLDecrypt.new(config)
       @subject.stub(:execute)
     end
 
@@ -44,7 +44,7 @@ describe Restore::Processing::OpenSSLDecrypt do
 
     it 'should raise an argument error when missing the encryption cipher' do
       expect do
-        Restore::Processing::OpenSSLDecrypt.new(config)
+        Restore::Processor::OpenSSLDecrypt.new(config)
       end.to raise_error ArgumentError
     end
 
