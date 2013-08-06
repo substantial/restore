@@ -1,3 +1,3 @@
-module Restore
+class Restore
   VERSION = "0.0.1"
 end
