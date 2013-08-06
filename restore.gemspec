@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Restore::VERSION
   spec.authors       = ["re5et"]
   spec.email         = ["re5etsmyth@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Restore database backups}
+  spec.summary       = %q{Restore and process database backups}
   spec.homepage      = ""
   spec.license       = "MIT"
 
