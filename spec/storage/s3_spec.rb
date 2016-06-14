@@ -13,22 +13,22 @@ describe Restore::Storage::S3 do
   end
 
   let(:older_object) do |object|
-    mock.tap do |object|
+    double.tap do |object|
       object.stub(:key){ 'my/objects/older/file-path' }
       object.stub(:last_modified){ 1 }
     end
   end
 
   let(:file) do
-    mock.tap do |file|
+    double.tap do |file|
       file.stub(:write)
     end
   end
 
-  let(:chunk){ mock }
+  let(:chunk){ double }
 
   let(:newer_object) do |object|
-    mock.tap do |object|
+    double.tap do |object|
       object.stub(:key){ 'my/objects/newer/file-path' }
       object.stub(:last_modified){ 2 }
       object.stub(:read).and_yield(chunk)
@@ -38,13 +38,13 @@ describe Restore::Storage::S3 do
   let(:objects_with_prefix){ [older_object, newer_object] }
 
   let(:objects) do
-    mock.tap do |objects|
+    double.tap do |objects|
       objects.stub(:with_prefix).with(config[:prefix_path]){ objects_with_prefix }
     end
   end
 
   let(:bucket) do
-    mock.tap do |bucket|
+    double.tap do |bucket|
       bucket.stub(:objects){ objects }
     end
   end
@@ -52,10 +52,10 @@ describe Restore::Storage::S3 do
   let(:buckets){ { config[:bucket_name] => bucket } }
 
   before do
-    AWS.stub(:config)
+    Aws.stub(:config)
 
-    AWS::S3.stub(:new) do
-      mock.tap do |s3|
+    Aws::S3.stub(:new) do
+      double.tap do |s3|
         s3.stub(:buckets){ buckets }
       end
     end
@@ -71,7 +71,7 @@ describe Restore::Storage::S3 do
     end
 
     it 'should configure aws s3 correctly' do
-      AWS.should_receive(:config).with(config)
+      Aws.should_receive(:config).with(config)
       @subject.retrieve
     end
 

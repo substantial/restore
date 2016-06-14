@@ -52,8 +52,8 @@ class Restore
 
       def s3
         @_s3 ||= begin
-                   AWS.config(@config)
-                   AWS::S3.new
+                   Aws.config(@config)
+                   Aws::S3.new
                  end
       end
 

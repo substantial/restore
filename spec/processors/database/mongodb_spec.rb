@@ -8,7 +8,7 @@ describe Restore::Processor::Database::MongoDB do
 
   before do
     @subject = Restore::Processor::Database::MongoDB.new(config)
-    @subject.stub(:execute){ mock }
+    @subject.stub(:execute){ double }
   end
 
   describe '#process' do
