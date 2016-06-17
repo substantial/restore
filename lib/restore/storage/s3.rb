@@ -4,34 +4,27 @@ require 'tmpdir'
 require 'aws-sdk'
 
 class Restore
-
   module Storage
-
     class S3 < Strategy
-
       def initialize(config)
         @config = config
       end
 
       def retrieve
         write_file(backup_path, latest_backup)
-        return backup_path
+        backup_path
       end
 
       private
 
-      def write_file(filename, data)
+      def write_file(filename, object)
         log "writing archive to #{filename}"
-        open(filename, 'wb') do |file|
-          data.read do |chunk|
-            file.write chunk
-          end
-        end
+        object.get response_target: filename
       end
 
       def latest_backup
         @_latest_backup ||= begin
-                              objects = bucket.objects.with_prefix(@config[:prefix_path])
+                              objects = bucket.objects prefix: @config[:prefix_path]
                               object = objects.sort_by(&:last_modified).last
                               log "found object #{object.key}"
                               object
@@ -40,25 +33,19 @@ class Restore
 
       def bucket
         log "looking in bucket #{@config[:bucket_name]}"
-        s3.buckets[@config[:bucket_name]]
+        s3.bucket @config[:bucket_name]
       end
 
       def backup_path
         @_backup_path ||= begin
-                            filename = latest_backup.key.gsub('/', '-')
+                            filename = latest_backup.key.tr('/', '-')
                             File.join(Dir.tmpdir, filename)
                           end
       end
 
       def s3
-        @_s3 ||= begin
-                   AWS.config(@config)
-                   AWS::S3.new
-                 end
+        @_s3 ||= Aws::S3::Resource.new @config.reject { |k| [:prefix_path, :bucket_name].include? k }
       end
-
     end
-
   end
-
 end

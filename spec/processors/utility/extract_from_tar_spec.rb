@@ -4,7 +4,7 @@ require 'restore/processors/utility/extract_from_tar'
 describe Restore::Processor::Utility::ExtractFromTar do
 
   let(:backup){ '/thing' }
-  let(:extracted_backup){ mock }
+  let(:extracted_backup){ double }
   let(:config) do
     {
       :extract_path => 'backup_directory',
